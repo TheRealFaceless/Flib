@@ -16,6 +16,7 @@ repositories {
     maven {url = 'https://repo.papermc.io/repository/maven-public/'}
     mavenCentral()
     mavenLocal()
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
