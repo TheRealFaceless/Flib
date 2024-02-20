@@ -1,0 +1,4 @@
+name: Flib
+version: '1.0'
+main: net.faceless.flib.Flib
+api-version: '1.20'
