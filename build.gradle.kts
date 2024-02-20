@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "net.faceless"
-version = "1.0-SNAPSHOT"
+version = "1.0"
 description = "Simple Library"
 
 java {
@@ -18,9 +18,6 @@ repositories {
     maven {
         url = uri("https://repo.papermc.io/repository/maven-public/")
     }
-    maven {
-        url = uri("https://jitpack.io")
-    }
 }
 
 dependencies {
@@ -31,15 +28,3 @@ tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("lib") {
-            from(components["java"])
-        }
-    }
-    repositories {
-        maven {
-            url = uri("https://jitpack.io")
-        }
-    }
-}
