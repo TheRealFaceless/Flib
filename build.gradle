@@ -7,6 +7,12 @@ group = 'net.faceless'
 version = '1.0'
 description = 'Simple Library'
 
+java {
+    toolchain {
+        toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
 repositories {
     maven {url = 'https://repo.papermc.io/repository/maven-public/'}
     mavenCentral()
