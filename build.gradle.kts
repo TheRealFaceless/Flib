@@ -1,5 +1,6 @@
 plugins {
     `java-library`
+    `maven-publish`
 }
 
 group = "net.faceless"
@@ -12,14 +13,13 @@ java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
 
-
-group = "net.dev.gnetwork"
-version = "1.0-SNAPSHOT"
-
 repositories {
     mavenCentral()
     maven {
         url = uri("https://repo.papermc.io/repository/maven-public/")
+    }
+    maven {
+        url = uri("https://jitpack.io")
     }
 }
 
@@ -29,4 +29,10 @@ dependencies {
 
 tasks.withType(JavaCompile::class.java) {
     options.encoding = "UTF-8"
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") { from(components["java"]) }
+    }
 }
