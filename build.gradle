@@ -7,11 +7,6 @@ group = 'net.faceless'
 version = '1.0'
 description = 'Simple Library'
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-}
-
 repositories {
     maven {url = 'https://repo.papermc.io/repository/maven-public/'}
     mavenCentral()
