@@ -8,8 +8,7 @@ version = 1.0
 description = 'Simple Library'
 
 java {
-    sourceCompatibility = 17
-    targetCompatibility = 17
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
 
 repositories {
