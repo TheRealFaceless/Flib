@@ -8,33 +8,27 @@ import org.bukkit.entity.Player;
 
 @SuppressWarnings("deprecation")
 public class ChatUtil {
-    public static void sendMessage(Player player, String message) {
-        MiniMessage miniMessage = MiniMessage.miniMessage();
-        Component component = miniMessage.deserialize(message);
-        player.sendMessage(component);
+    public static Component format(String msg) {
+        return MiniMessage.miniMessage().deserialize(msg);
     }
 
-    public static void sendLegacyMessage(Player player, String message) {
-        message = ChatColor.translateAlternateColorCodes('&', message);
-        player.sendMessage(message);
+    public static String formatLegacy(String msg) {
+        return ChatColor.translateAlternateColorCodes('&', msg);
     }
 
-    public static Component format(String message) {
-        MiniMessage miniMessage = MiniMessage.miniMessage();
-        return miniMessage.deserialize(message);
+    public static void sendMessage(Player player, String msg) {
+        player.sendMessage(format(msg));
     }
 
-    public static String formatLegacy(String message) {
-        return ChatColor.translateAlternateColorCodes('&', message);
+    public static void sendLegacyMessage(Player player, String msg) {
+        player.sendMessage(formatLegacy(msg));
     }
 
-    public static void sendConsoleMessage(String message) {
-        MiniMessage miniMessage = MiniMessage.miniMessage();
-        Component component = miniMessage.deserialize(message);
-        Bukkit.getConsoleSender().sendMessage(component);
+    public static void sendConsoleMessage(String msg) {
+        Bukkit.getConsoleSender().sendMessage(format(msg));
     }
 
-    public static void sendLegacyConsoleMessage(String message) {
-        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+    public static void sendLegacyConsoleMessage(String msg) {
+        Bukkit.getConsoleSender().sendMessage(formatLegacy(msg));
     }
 }

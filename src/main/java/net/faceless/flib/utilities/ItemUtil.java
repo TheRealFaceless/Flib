@@ -17,6 +17,9 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * @author Faceless, JustAPotato06
+ */
 @SuppressWarnings("deprecation")
 public class ItemUtil {
     public static ItemStack create(Material mat) {
@@ -115,16 +118,5 @@ public class ItemUtil {
         playerHeadMeta.setOwner(player.getName());
         playerHead.setItemMeta(playerHeadMeta);
         return playerHead;
-    }
-
-    public static ItemStack getSetupStick() {
-        ItemStack setupStick = ItemUtil.create(Material.STICK, Component.text("SETUP STICK", NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false),
-                Arrays.asList(Component.text("A setup stick for", NamedTextColor.YELLOW).decoration(TextDecoration.ITALIC, false),
-                        Component.text("the Hide N' Seek minigame", NamedTextColor.YELLOW).decoration(TextDecoration.ITALIC, false)));
-        ItemMeta setupStickMeta = setupStick.getItemMeta();
-        setupStickMeta.addEnchant(Enchantment.DIG_SPEED, 5, true);
-        setupStickMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        setupStick.setItemMeta(setupStickMeta);
-        return setupStick;
     }
 }
