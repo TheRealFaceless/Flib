@@ -40,7 +40,11 @@ public class ConfigManager {
             if (file.isDirectory()) {
                 loadConfigsFromFolder(file, plugin, loadedFiles);
             } else if (file.getName().endsWith(".yml") && !loadedFiles.contains(file.getName())) {
-                createConfig(folder.getPath(), file.getName(), plugin);
+                File parentFolder = new File(folder.getParentFile().getParent());
+
+                String relativePath = folder.getPath().replace(parentFolder.getPath(), "").substring(1);
+
+                createConfig(relativePath, file.getName(), plugin);
                 loadedFiles.add(file.getName());
             }
         }
