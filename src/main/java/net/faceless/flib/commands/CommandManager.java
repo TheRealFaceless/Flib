@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class CommandManager implements TabExecutor {
+public abstract class CommandManager implements TabExecutor {
     private final Map<String, SubCommand> commands;
 
     public CommandManager(JavaPlugin plugin) {
@@ -23,9 +23,8 @@ public class CommandManager implements TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-        if (!(sender instanceof Player player)) {
-            return true;
-        }
+        if (!(sender instanceof Player player)) return true;
+
         if (args.length == 0) {
             ChatUtil.sendMessage(player, "<dark_gray>===============================================");
             for (String command : commands.keySet()) {
@@ -48,7 +47,7 @@ public class CommandManager implements TabExecutor {
         commands.put(subCommand.getName(), subCommand);
     }
 
-    protected SubCommand getCommand(String name) {
+    private SubCommand getCommand(String name) {
         SubCommand subCommand = commands.getOrDefault(name, null);
         if (subCommand == null) {
             subCommand = commands

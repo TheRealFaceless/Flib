@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+@SuppressWarnings("unused")
 public class ConfigManager {
 
     private final Map<String, Config> configs = new HashMap<>();
@@ -22,7 +23,7 @@ public class ConfigManager {
     }
 
     /**
-     * Automatically registers all existing config files in plugin folder
+     * Create Static Configs here.
      * @param plugin Plugin Instance
      */
     public void register(JavaPlugin plugin) {
@@ -40,11 +41,7 @@ public class ConfigManager {
             if (file.isDirectory()) {
                 loadConfigsFromFolder(file, plugin, loadedFiles);
             } else if (file.getName().endsWith(".yml") && !loadedFiles.contains(file.getName())) {
-                File parentFolder = new File(folder.getParentFile().getParent());
-
-                String relativePath = folder.getPath().replace(parentFolder.getPath(), "").substring(1);
-
-                createConfig(relativePath, file.getName(), plugin);
+                createConfig(folder.getPath(), file.getName(), plugin);
                 loadedFiles.add(file.getName());
             }
         }
