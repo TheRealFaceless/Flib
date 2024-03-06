@@ -29,6 +29,18 @@ tasks.register('sourcesJar', Jar) {
 
 assemble.dependsOn('sourcesJar')
 
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+        }
+    }
+    repositories {
+        maven {url 'https://jitpack.io'}
+    }
+}
+
 wrapper {
     gradleVersion = "7.3.3"
     distributionType = Wrapper.DistributionType.ALL
