@@ -34,11 +34,10 @@ public class ChatUtil {
     }
 
     public static void logConsoleMessage(String message, MessageType type) {
-        String prefix = "[Aurelius] ";
         switch (type) {
-            case INFO -> Bukkit.getLogger().info(MessageColor.BLUE.getCode() +prefix+ MessageColor.RESET.getCode() + message);
-            case WARN -> Bukkit.getLogger().warning(MessageColor.YELLOW.getCode() +prefix+ MessageColor.RESET.getCode() + message );
-            case ERROR -> Bukkit.getLogger().severe(MessageColor.RED.getCode() +prefix+ MessageColor.RESET.getCode() + message );
+            case INFO -> Bukkit.getLogger().info(MessageColor.BLUE.getCode() + MessageColor.RESET.getCode() + message);
+            case WARN -> Bukkit.getLogger().warning(MessageColor.YELLOW.getCode() + MessageColor.RESET.getCode() + message );
+            case ERROR -> Bukkit.getLogger().severe(MessageColor.RED.getCode() + MessageColor.RESET.getCode() + message );
         }
     }
 
