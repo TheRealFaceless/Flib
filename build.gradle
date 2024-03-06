@@ -12,7 +12,6 @@ java {
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
     maven {
         url = 'https://repo.papermc.io/repository/maven-public/'
@@ -22,6 +21,13 @@ repositories {
 dependencies {
     compileOnly 'io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT'
 }
+
+tasks.register('sourcesJar', Jar) {
+    from sourceSets.main.allSource
+    archiveClassifier.set('sources')
+}
+
+assemble.dependsOn('sourcesJar')
 
 wrapper {
     gradleVersion = "7.3.3"
