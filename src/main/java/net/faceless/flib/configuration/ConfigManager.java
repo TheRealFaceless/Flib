@@ -1,6 +1,6 @@
 package net.faceless.flib.configuration;
 
-import net.faceless.flib.utilities.ChatUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
@@ -10,7 +10,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-@SuppressWarnings("unused")
+/**
+ * All configs here are in memory so calling getConfig(); on them will
+ * only return the config in memory.
+ * Reload the config object to get config from disk.
+ * use "/" for separating paths when getting configs
+ */
 public class ConfigManager {
 
     private final Map<String, Config> configs = new HashMap<>();
@@ -23,7 +28,10 @@ public class ConfigManager {
     }
 
     /**
-     * Create Static Configs here.
+     * Called in Plugin Main Class
+     * Loads every file ending with .yml in the plugin's data folder
+     * into memory.
+     *
      * @param plugin Plugin Instance
      */
     public void register(JavaPlugin plugin) {
@@ -31,6 +39,19 @@ public class ConfigManager {
         if (dataFolder.exists() && dataFolder.isDirectory()) {
             loadConfigsFromFolder(dataFolder, plugin, new HashSet<>());
         }
+    }
+
+    /**
+     * Called once in Config class for every config created
+     * and caches it to configs Map
+     *
+     * @param path path to config file
+     * @param name file name
+     * @param config config object
+     */
+    public void register(String path, String name, Config config) {
+        if(name.endsWith(".yml")) name = name.replace(".yml", "");
+        configs.put(path +"/"+ name, config);
     }
 
     private void loadConfigsFromFolder(File folder, JavaPlugin plugin, Set<String> loadedFiles) {
@@ -41,30 +62,50 @@ public class ConfigManager {
             if (file.isDirectory()) {
                 loadConfigsFromFolder(file, plugin, loadedFiles);
             } else if (file.getName().endsWith(".yml") && !loadedFiles.contains(file.getName())) {
-                createConfig(folder.getPath(), file.getName(), plugin);
+                File parentFolder = new File(folder.getParentFile().getParent());
+                String relativePath = folder.getPath().replace(parentFolder.getPath(), "").substring(1);
+
+                createOrGetConfig(relativePath, file.getName(), plugin);
                 loadedFiles.add(file.getName());
             }
         }
     }
 
-    public Config createConfig(String path, String name, JavaPlugin plugin){
+    public Config createOrGetConfig(String path, String name, JavaPlugin plugin){
+        if(configs.containsKey(path +"/"+ name)) return configs.get(path +"/"+ name);
         Config config = new Config(path, name, plugin);
 
         if(name.endsWith(".yml")) name = name.replace(".yml", "");
-        configs.put(name, config);
+        configs.put(path +"/"+ name, config);
         return config;
     }
 
     @Nullable
-    public Config getConfig(String name) {
+    public Config getConfig(String path, String name) {
+        name = path +"/"+ name;
         if(configs.containsKey(name)) return configs.get(name);
         if(name.endsWith(".yml")) name = name.replace(".yml", "");
         if(configs.containsKey(name)) return configs.get(name);
         return null;
     }
 
+    @Nullable
+    public Config getConfig(String path) {
+        if(configs.containsKey(path)) return configs.get(path);
+        if(path.endsWith(".yml")) path = path.replace(".yml", "");
+        if(configs.containsKey(path)) return configs.get(path);
+        return null;
+    }
+
+    public void reload(String path, String name) {
+        Config config = getConfig(path, name);
+        if(config != null) {
+            config.reload();
+        }
+    }
+
     public void getNames() {
-        configs.keySet().forEach((string -> ChatUtil.sendConsoleMessage("<green> " + string) ));
+        configs.keySet().forEach((name)-> Bukkit.getConsoleSender().sendMessage(name));
     }
 
     public void saveAll() {
@@ -74,5 +115,4 @@ public class ConfigManager {
     public void loadAll() {
         configs.values().forEach(Config::reload);
     }
-
 }

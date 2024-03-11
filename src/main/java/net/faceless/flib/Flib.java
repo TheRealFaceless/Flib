@@ -8,6 +8,7 @@ public final class Flib extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        // Call these two methods in ur plugins main after shading.
         ConfigManager.getManager().register(this);
         getServer().getPluginManager().registerEvents(new MenuListener(), this);
     }
